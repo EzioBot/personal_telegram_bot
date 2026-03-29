@@ -1,65 +1,15 @@
-# =========================
-# 🔐 Environment Secrets
-# =========================
+# Environment variables
 .env
-.env.*
-*.env
 
-# =========================
-# 🗄️ Database Files
-# =========================
+# Database files
 *.db
-*.sqlite
-*.sqlite3
-data/*.db
-data/*.sqlite
-data/*.sqlite3
 
-# =========================
-# 🐍 Python Cache
-# =========================
+# Python cache
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# =========================
-# 🧪 Virtual Environment
-# =========================
+# Virtual environment
 venv/
-env/
-.venv/
 
-# =========================
-# 🧾 Logs
-# =========================
+# Logs
 *.log
-logs/
-
-# =========================
-# 🧑‍💻 IDE / Editor Files
-# =========================
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# =========================
-# 🧪 Testing / Coverage
-# =========================
-.pytest_cache/
-.coverage
-htmlcov/
-
-# =========================
-# 🗂️ OS Files
-# =========================
-.DS_Store
-Thumbs.db
-
-# =========================
-# 🚀 Deployment / Build
-# =========================
-dist/
-build/
-*.egg-info/
