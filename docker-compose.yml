@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  telegram_bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram_bot
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./messages.db:/app/messages.db # Persist the SQLite database

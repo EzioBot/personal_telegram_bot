@@ -1,0 +1,141 @@
+You are an expert backend engineer and system architect.
+
+I already have a working Telegram bot built in Python that:
+- Receives messages
+- Stores them in a local SQLite database
+- Replies to the user
+
+Now I want to UPGRADE this system to support OFFLINE persistence and GLOBAL availability.
+
+---
+
+## 🎯 Objective
+
+Modify the system so that:
+
+1. The Telegram bot works 24/7 (even when my local PC is OFF)
+2. Messages are NEVER lost
+3. Messages are stored globally when my PC is off
+4. When my PC turns ON again, it syncs and stores all missed messages locally
+
+---
+
+## ⚙️ System Design Requirements
+
+### 1. Cloud Deployment (MANDATORY)
+- Deploy the Telegram bot to a cloud server (e.g., Railway, Render, or any free hosting)
+- The bot must always be running online
+- Use webhook or polling (choose best approach)
+
+---
+
+### 2. Global Database
+- Replace or extend SQLite with a cloud database:
+  - Prefer PostgreSQL (or Firebase / MongoDB if easier)
+- Store ALL incoming messages in this global DB
+
+Each message must include:
+- message_id
+- user_id
+- username
+- text
+- timestamp
+- sync_status (synced / not_synced)
+
+---
+
+### 3. Local PC Sync System
+
+When my local PC is ON:
+- A local Python script should:
+  - Connect to the global database
+  - Fetch messages where sync_status = "not_synced"
+  - Store them into local SQLite database (message.db)
+  - Mark them as "synced" in global DB
+
+---
+
+### 4. Online vs Offline Detection
+
+Implement a system to detect whether my local PC is active:
+
+Option A (preferred):
+- Local PC sends a "heartbeat" (ping) to the global server every X seconds
+
+Option B:
+- Use last_active timestamp in DB
+
+---
+
+### 5. Smart Bot Response Logic
+
+Bot behavior must change depending on PC status:
+
+#### 🟢 If PC is ONLINE:
+Reply:
+"✅ Message received and stored successfully."
+
+#### 🔴 If PC is OFFLINE:
+Reply:
+"⚠️ The user is currently offline. Your message has been recorded and will be processed when they are back online."
+
+---
+
+### 6. Architecture
+
+Split system into:
+
+1. Cloud Bot Service
+   - Handles Telegram messages
+   - Stores in global DB
+   - Sends responses
+
+2. Local Sync Service (runs on my PC)
+   - Syncs global → local DB
+   - Updates status
+
+3. Database Layer
+   - Clean abstraction for both local and global DB
+
+---
+
+### 7. Code Structure
+
+Organize code into:
+
+- cloud_bot/
+- local_sync/
+- database/
+- config/
+- utils/
+
+---
+
+### 8. Setup Instructions
+
+Provide:
+1. How to deploy bot to cloud (step-by-step)
+2. How to connect PostgreSQL (or chosen DB)
+3. How to run local sync script
+4. How to test online/offline behavior
+
+---
+
+### 9. Bonus (if possible)
+
+- Use environment variables (.env)
+- Add logging system
+- Add retry mechanism for failed sync
+
+---
+
+## 🚀 Output Format
+
+Return:
+1. Full updated project code
+2. Deployment guide (cloud)
+3. Local sync script
+4. Database schema
+5. Testing instructions
+
+Everything must work end-to-end without manual fixes.
